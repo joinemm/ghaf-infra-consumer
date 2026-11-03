@@ -1,0 +1,26 @@
+# Replace the builder URL when configuring the Jenkins hostname.
+version: '2.0'
+signature:
+  verify: true
+
+criteria:
+  - id: predicate-type
+    description: SLSA provenance v1
+    required: true
+    cel: predicateType == 'https://slsa.dev/provenance/v1'
+  - id: build-type
+    description: Ghaf Jenkins Nix build
+    required: true
+    cel: predicate.buildDefinition.buildType == 'https://github.com/tiiuae/ghaf-infra/blob/ea938e90/slsa/v1.0/L1/buildtype.md'
+  - id: target-repository
+    description: Source is the configured Ghaf repository
+    required: true
+    cel: predicate.buildDefinition.externalParameters.target.repository == 'https://github.com/tiiuae/ghaf/'
+  - id: consumer-builder
+    description: Built by this consumer's Jenkins controller
+    required: true
+    cel: predicate.runDetails.builder.id == 'https://jenkins.example.org/'
+  - id: recent-build
+    description: Build finished within six hours
+    required: true
+    cel: now - timestamp(predicate.runDetails.metadata.finishedOn) < duration('6h')

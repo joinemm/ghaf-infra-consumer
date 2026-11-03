@@ -1,0 +1,4 @@
+/result
+/result-*
+# Git protection only: path flakes still snapshot ignored files.
+/secrets/

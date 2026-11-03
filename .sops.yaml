@@ -1,0 +1,10 @@
+# Example recipient only; no matching private key is shipped.
+# Replace each rule with that machine's and administrator's age PUBLIC recipients,
+# then regenerate both encrypted files from their templates before deployment.
+creation_rules:
+  - path_regex: ^jenkins/secrets\.yaml$
+    age: >-
+      age1yhyha5h9hytlyuhhpadnj0eyfrdyykegcv39973hnqxmr3ym8yqstx7s5y
+  - path_regex: ^testagent/secrets\.yaml$
+    age: >-
+      age1yhyha5h9hytlyuhhpadnj0eyfrdyykegcv39973hnqxmr3ym8yqstx7s5y

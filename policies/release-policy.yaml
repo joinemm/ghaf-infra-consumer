@@ -1,0 +1,26 @@
+# Release publishing is disabled in this example. Enabling it also requires
+# signing, SBOM generation, and an appropriate release pipeline.
+version: '1.0'
+name: Example Jenkins Release Policy
+
+criteria:
+  - id: consumer-builder
+    description: Provenance identifies this consumer's Jenkins controller
+    required: true
+    cel: files.provenance && provenance.predicate.runDetails.builder.id == 'https://jenkins.example.org/'
+  - id: image-signature
+    description: Image signature verifies
+    required: true
+    cel: files.image && files.image_signature && signatures.image.verified
+  - id: provenance-signature
+    description: Provenance signature verifies
+    required: true
+    cel: files.provenance && files.provenance_signature && signatures.provenance.verified
+  - id: provenance-policy
+    description: Provenance satisfies the consumer's trust policy
+    required: true
+    cel: provenance_policy.passed
+  - id: sbom-present
+    description: SBOM outputs are present
+    required: true
+    cel: files.sbom_csv && files.sbom_cyclonedx && files.sbom_spdx
